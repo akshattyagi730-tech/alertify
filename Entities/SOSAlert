@@ -1,0 +1,75 @@
+{
+  "name": "SOSAlert",
+  "type": "object",
+  "properties": {
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "auto_motion",
+        "auto_deviation",
+        "auto_stop"
+      ],
+      "description": "How the alert was triggered"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "resolved",
+        "false_alarm"
+      ],
+      "default": "active"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "journey_id": {
+      "type": "string",
+      "description": "Associated journey if any"
+    },
+    "contacts_notified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of contact IDs notified"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "last_alert_sent": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time alert was sent to contacts"
+    },
+    "alert_count": {
+      "type": "number",
+      "description": "Number of alerts sent",
+      "default": 0
+    },
+    "tracking_url": {
+      "type": "string",
+      "description": "Shareable tracking link for contacts"
+    },
+    "google_maps_url": {
+      "type": "string",
+      "description": "Direct Google Maps link to location"
+    }
+  },
+  "required": [
+    "trigger_type",
+    "latitude",
+    "longitude"
+  ]
+}

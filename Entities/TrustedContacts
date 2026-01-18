@@ -1,0 +1,47 @@
+{
+  "name": "TrustedContact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Contact's full name"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number for SMS/calls"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email for alerts"
+    },
+    "relationship": {
+      "type": "string",
+      "enum": [
+        "family",
+        "friend",
+        "partner",
+        "colleague",
+        "other"
+      ],
+      "description": "Relationship with the contact"
+    },
+    "is_primary": {
+      "type": "boolean",
+      "default": false,
+      "description": "Primary emergency contact"
+    },
+    "notify_on_journey": {
+      "type": "boolean",
+      "default": true,
+      "description": "Notify when journey starts"
+    },
+    "avatar_color": {
+      "type": "string",
+      "description": "Color for avatar display"
+    }
+  },
+  "required": [
+    "name",
+    "phone"
+  ]
+}

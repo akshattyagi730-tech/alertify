@@ -1,0 +1,63 @@
+/**
+ * STOP SOS - BACKEND FUNCTION
+ * 
+ * Called when user marks themselves safe or cancels SOS
+ * Sends final "I'm safe" SMS to all contacts
+ */
+
+import { base44 } from '@/api/base44Client';
+
+export default async function StopSOS(request) {
+  try {
+    const { alertId, userName, userEmail } = request.body;
+
+    // Get alert details
+    const alert = await base44.asServiceRole.entities.SOSAlert.get(alertId);
+    
+    if (!alert) {
+      return {
+        success: false,
+        error: 'Alert not found'
+      };
+    }
+
+    // Get contacts
+    const contacts = await base44.asServiceRole.entities.TrustedContact.filter({
+      created_by: userEmail
+    });
+
+    const contactPhones = contacts
+      .map(c => c.phone)
+      .filter(phone => phone && phone.trim());
+
+    // Send final "I'm safe" SMS
+    const smsResult = await base44.asServiceRole.functions.SendSOSSMS({
+      alertId: alert.id,
+      contactPhones,
+      latitude: alert.latitude,
+      longitude: alert.longitude,
+      userName,
+      alertNumber: alert.alert_count || 0,
+      isFinalMessage: true
+    });
+
+    // Update alert status to resolved
+    await base44.asServiceRole.entities.SOSAlert.update(alertId, {
+      status: 'resolved',
+      resolved_at: new Date().toISOString()
+    });
+
+    return {
+      success: true,
+      smsResult,
+      message: 'SOS stopped and safety SMS sent'
+    };
+
+  } catch (error) {
+    console.error('StopSOS error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}

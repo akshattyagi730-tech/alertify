@@ -1,0 +1,64 @@
+import apiClient from "../../api/apiClient";
+
+/**
+ * FINAL Start SOS function
+ * - Gets live location
+ * - Calls backend /sos/start
+ * - Saves SOS in DB
+ */
+export const startSOS = async () => {
+  const CREATED_BY = "test@gmail.com"; // 🔴 TEMP (replace with auth later)
+
+  // Get current location
+  const getLocation = () =>
+    new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation not supported"));
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          reject(new Error("Location permission denied"));
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+        }
+      );
+    });
+
+  try {
+    // 1️⃣ Fetch location
+    const { latitude, longitude } = await getLocation();
+
+    // 2️⃣ Call backend SOS API
+    const response = await apiClient.functions.StartSOS({
+      trigger_type: "manual",
+      latitude,
+      longitude,
+      location_name: "Live Location",
+      created_by: CREATED_BY,
+    });
+
+    console.log("✅ SOS STARTED:", response);
+
+    return {
+      success: true,
+      message: "SOS activated successfully",
+      data: response,
+    };
+  } catch (error) {
+    console.error("❌ SOS ERROR:", error);
+
+    return {
+      success: false,
+      message: error.message || "Failed to start SOS",
+    };
+  }
+};

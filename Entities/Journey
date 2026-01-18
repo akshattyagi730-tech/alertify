@@ -1,0 +1,57 @@
+{
+  "name": "Journey",
+  "type": "object",
+  "properties": {
+    "destination_name": {
+      "type": "string",
+      "description": "Name of destination"
+    },
+    "destination_lat": {
+      "type": "number",
+      "description": "Destination latitude"
+    },
+    "destination_lng": {
+      "type": "number",
+      "description": "Destination longitude"
+    },
+    "start_lat": {
+      "type": "number",
+      "description": "Starting latitude"
+    },
+    "start_lng": {
+      "type": "number",
+      "description": "Starting longitude"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "cancelled",
+        "sos_triggered"
+      ],
+      "default": "active"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ended_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "estimated_duration": {
+      "type": "number",
+      "description": "Estimated duration in minutes"
+    },
+    "current_lat": {
+      "type": "number"
+    },
+    "current_lng": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "destination_name"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "LocationUpdate",
+  "type": "object",
+  "properties": {
+    "alert_id": {
+      "type": "string",
+      "description": "Associated SOS alert ID"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "accuracy": {
+      "type": "number",
+      "description": "GPS accuracy in meters"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "speed": {
+      "type": "number",
+      "description": "Speed in m/s if available"
+    },
+    "heading": {
+      "type": "number",
+      "description": "Direction of travel in degrees"
+    }
+  },
+  "required": [
+    "alert_id",
+    "latitude",
+    "longitude"
+  ]
+}
